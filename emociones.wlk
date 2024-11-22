@@ -63,7 +63,6 @@ class Alegria inherits Emocion{//la instensidad inicial depende de cada caso
 }
 
 class Tristeza inherits Emocion{
-  //su intensidad puede variar sin limitaciones?
   var causa
 
   method puede_liberarse(){
@@ -85,7 +84,7 @@ class Tristeza inherits Emocion{
 
 class Desagrado_o_temor inherits Emocion{
 
-  override method liberarse(evento){ //ver de imlementar un super en todas las sub clases de emociones
+  override method liberarse(evento){
     if(self.puede_liberarse()){
       super(evento)
     }
