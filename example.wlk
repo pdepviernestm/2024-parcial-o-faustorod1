@@ -1,6 +1,6 @@
 class Persona {
   var edad
-  const emociones = []
+  const property emociones = []
 
   method cumplir_anios(){
     edad += 1
@@ -23,7 +23,6 @@ class Persona {
   }
 
   method vivir(evento){
-    //invrementar eventos experimentados
     emociones.forEach({
       emocion => 
       emocion.liberarse(evento)
@@ -34,14 +33,21 @@ class Persona {
 }
 
 class Evento{
-  const property impacto
+  var property impacto
   const property descripcion
+
+  method impacto(){
+    //El impacto de un evento se expresa con un número positivo
+    //el getter funciona tambien como setter para corregir el impacto si era negativo 
+    impacto = impacto.abs()
+    return impacto
+  }
 }
 
-class Emocion{//object??
-  var property piso_de_intensidad //fijar arbitrsriamente?
+class Emocion{
+  var property piso_de_intensidad = 50 //fijado arbitrsriamente
   var property intensidad
-  var eventos_experimentados = 0
+  var property eventos_experimentados = 0
 
   method intensidad_elevada(){
     return intensidad > piso_de_intensidad
@@ -133,8 +139,19 @@ class Desagrado_o_temor inherits Emocion{
   }
 }
 
-const grupo_de_personas = [] //chequear
+class Grupo{
+  const property personas = []
 
+  method agregar(persona){
+    personas.add(persona)
+  }
+
+  method vivir(evento){
+    personas.forEach({persona => persona.vivir(evento)})
+  }
+
+
+}
 ///////////////  Intensamente2  ///////////////
 
 class Ansiedad inherits Emocion{
@@ -160,15 +177,15 @@ class Ansiedad inherits Emocion{
   EXPLICACION
 
     Polimorfimo:
-      - Se utilizo en el metodo "liberarse" para que cada emocion se libere de una forma distinta pero todas las emociones puedas recibir el mismo mensaje.
+      - Se utilizo en el metodo "liberarse(evento)" para que cada emocion se libere de una forma distinta pero todas las emociones puedas recibir el mismo mensaje.
       - Todas las emociones tienen ese metodo y reciben el mismo parametro aunque su implementacion difiera.
     
     Herencia:
-      - Ansiedad hereda de Emocion para utilizar sus metodos, variables y constantes.
-      - Fue util para reutuilizar codigo repetido entre las emociones.
+      - La clase Ansiedad (Sub Clase) hereda de la clase Emocion (Clase Padre) para utilizar mismos metodos, variables y constantes.
+      - Fue util para reutuilizar codigo entre las emociones y no repetir dicho codigo.
   
   */
 }
 
 
-//separar el exaple.wlf en distintos archivos!!
+//separar el exaple.wlk en distintos archivos!!
