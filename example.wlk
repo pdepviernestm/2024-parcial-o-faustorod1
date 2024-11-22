@@ -56,19 +56,23 @@ class Emocion{
   method incrementar_eventos_experimentados(){
     eventos_experimentados += 1
   }
+
+  method liberarse(evento){
+    intensidad -= evento.impacto()
+  }
 }
 
 class Furia inherits Emocion(intensidad = 100){
-  var palabrotas = [] // es "var" para poder usar "drop". Asumo que pueden repetirse las palabrotas
+  const palabrotas = []
 
   method puede_liberarse(){
     return self.intensidad_elevada() && self.conoce_palabrota_mayor_a_7_letras()
   }
 
-  method liberarse(evento){
+  override method liberarse(evento){
     if(self.puede_liberarse()){
-      intensidad -= evento.impacto()
-      palabrotas = palabrotas.drop(1) //olvida la 1er palabrota aprendida (esta al inicio)
+      super(evento)
+      self.olvidar(palabrotas.head()) //olvida la 1da palabrota aprendida
     }
   }
   
@@ -92,7 +96,7 @@ class Alegria inherits Emocion{//la instensidad inicial depende de cada caso
     return self.intensidad_elevada() && self.eventos_experimentados_pares()
   }
   
-  method liberarse(evento){
+  override method liberarse(evento){
     if(self.puede_liberarse()){
       //disminuir intensidad manteniendola positiva
       intensidad = (intensidad - evento.impacto()).abs()
@@ -113,10 +117,10 @@ class Tristeza inherits Emocion{
     return self.intensidad_elevada() && !self.causa_es_melancolia()
   }
 
-  method liberarse(evento){
+  override method liberarse(evento){
     if(self.puede_liberarse()){
       causa = evento.descripcion()
-      intensidad -= evento.impacto()
+      super(evento)
     }
   }
 
@@ -128,9 +132,9 @@ class Tristeza inherits Emocion{
 
 class Desagrado_o_temor inherits Emocion{
 
-  method liberarse(evento){ //ver de imlementar un super en todas las sub clases de emociones
+  override method liberarse(evento){ //ver de imlementar un super en todas las sub clases de emociones
     if(self.puede_liberarse()){
-      intensidad -= evento.impacto()
+      super(evento)
     }
   }
 
@@ -157,9 +161,9 @@ class Grupo{
 class Ansiedad inherits Emocion{
   var contador_de_consultas = 0
 
-  method liberarse(evento){
+  override method liberarse(evento){
     if(self.puede_liberarse()){
-      intensidad -= evento.impacto()
+      super(evento)
       contador_de_consultas = 0
     }
   }
