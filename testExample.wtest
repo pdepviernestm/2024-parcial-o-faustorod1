@@ -1,9 +1,44 @@
-import example.pepita
+import emociones.*
+import eventos.*
+import personas.*
 
-describe "group of tests for pepita" {
+describe "6. Todos los integrantes de un grupo de personas vivan un mismo evento" {
 
-  test "pepita has initial energy" {
-    assert.equals(100, pepita.energy())
+  test "Modificacion de intensidad de emociones" {
+    //creacion de personas
+    const persona1 = new Persona(edad = 15)
+    const persona2 = new Persona(edad = 19)
+    const persona3 = new Persona(edad = 60)
+
+    //creacion de grupo
+    const grupo_de_personas = new Grupo()
+
+    //agregar personas al grupo
+    grupo_de_personas.agregar(persona1)
+    grupo_de_personas.agregar(persona2)
+    grupo_de_personas.agregar(persona3)
+
+    //creacion y asociacion de emociones
+    const emocion_alegria = new Alegria(intensidad = 20)
+    persona1.nueva(emocion_alegria)
+    const emocion_furia = new Furia(intensidad = 60)
+    persona2.nueva(emocion_furia)
+    const emocion_tristeza = new Tristeza(intensidad = 70, causa = "melancolia")
+    persona3.nueva(emocion_tristeza)
+
+    //conoce palabrota mayor a 7 letras
+    persona2.emociones().head().aprender("palabrota")
+
+    //creacion de evento
+    const evento = new Evento(impacto = -10, descripcion = "gol de Argentina") //pruebo asignarle un valor negativo al impoacto para corroborar que se utilice el valor absoluto
+
+    //vivir evento
+    grupo_de_personas.vivir(evento)
+
+    //asserts
+    assert.equals(20, persona1.emociones().head().intensidad()) //no se modifica su intensidad (20) porque es menor al piso_de_intensidad (50)
+    assert.equals(50, persona2.emociones().head().intensidad()) //se modifica su intensidad (de 60 a 50) porque es mayor al piso_de_intensidad (50). Entonces intensidad = 60 - impacto (10) = 50
+    assert.equals(70, persona3.emociones().head().intensidad()) //no se modifica su intensidad (70) porque es la causa es melancolia
+    assert.that(grupo_de_personas.personas().all({persona => persona.emociones().head().eventos_experimentados() == 1})) //corrobpramos que efectivamente todas las emociones de las personas hayan experimentado el evento
   }
-
 }
