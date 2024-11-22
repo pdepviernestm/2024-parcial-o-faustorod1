@@ -1,6 +1,6 @@
 
 
-## Parcial de Objetos
+## Parcial de Objetos "Intensamente"
 
 Fausto Andres Rodriguez
 
