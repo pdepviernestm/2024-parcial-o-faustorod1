@@ -1,4 +1,6 @@
-import example.*
+import emociones.*
+import eventos.*
+import personas.*
 
 describe "6. Todos los integrantes de un grupo de personas vivan un mismo evento" {
 

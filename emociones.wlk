@@ -1,49 +1,3 @@
-class Persona {
-  var edad
-  const property emociones = []
-
-  method cumplir_anios(){
-    edad += 1
-  }
-
-  method es_adolescente() {
-    return edad.between(12, 19)
-  }
-
-  method nueva(emocion){
-    emociones.add(emocion)
-  }
-
-  method esta_por_explotar(){
-    return emociones.all({emocion => emocion.puede_liberarse()})
-  }
-
-  method modificar_piso_de_intensidad_de_emociones(nuevo_piso){
-    emociones.forEach({emocion => emocion.piso_de_intensidad(nuevo_piso)})
-  }
-
-  method vivir(evento){
-    emociones.forEach({
-      emocion => 
-      emocion.liberarse(evento)
-      emocion.incrementar_eventos_experimentados()
-    })
-  }
-
-}
-
-class Evento{
-  var property impacto
-  const property descripcion
-
-  method impacto(){
-    //El impacto de un evento se expresa con un número positivo
-    //el getter funciona tambien como setter para corregir el impacto si era negativo 
-    impacto = impacto.abs()
-    return impacto
-  }
-}
-
 class Emocion{
   var property piso_de_intensidad = 50 //fijado arbitrsriamente
   var property intensidad
@@ -110,7 +64,6 @@ class Alegria inherits Emocion{//la instensidad inicial depende de cada caso
 
 class Tristeza inherits Emocion{
   //su intensidad puede variar sin limitaciones?
-  
   var causa
 
   method puede_liberarse(){
@@ -143,19 +96,6 @@ class Desagrado_o_temor inherits Emocion{
   }
 }
 
-class Grupo{
-  const property personas = []
-
-  method agregar(persona){
-    personas.add(persona)
-  }
-
-  method vivir(evento){
-    personas.forEach({persona => persona.vivir(evento)})
-  }
-
-
-}
 ///////////////  Intensamente2  ///////////////
 
 class Ansiedad inherits Emocion{
@@ -190,6 +130,3 @@ class Ansiedad inherits Emocion{
   
   */
 }
-
-
-//separar el exaple.wlk en distintos archivos!!
