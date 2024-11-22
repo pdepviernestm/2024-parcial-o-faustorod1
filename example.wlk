@@ -1,5 +1,5 @@
 class Persona {
-  var edad //=0 ??
+  var edad //=0 ?? property?
   const emociones = []
 
   method es_adolescente() {
@@ -15,23 +15,27 @@ class Persona {
   }
 
   method vivir(evento){
-
+    //invrementar eventos experimentados
   }
 
 }
 
 class Evento{
   const property impacto
-  const descripcion //property?
+  const property descripcion
 }
 
 class Emocion{//object??
   var property piso_de_intensidad //fijar arbitrsriamente?
   var property intensidad
-  var eventos_experimentados = 0
+  var eventos_experimentados = 0 //fijarme donde lo incremento
 
   method intensidad_elevada(){
     return intensidad > piso_de_intensidad
+  }
+
+  method liberarse(evento){
+    intensidad -= evento.impacto()
   }
 }
 
@@ -44,7 +48,7 @@ class Furia inherits Emocion(intensidad = 100){
 
   method liberarse(evento){
     if(self.puede_liberarse()){
-      intensidad =- evento.impacto()
+      super(evento)
       palabrotas = palabrotas.drop(1) //olvida la 1er palabrota aprendida (esta al inicio)
     }
   }
@@ -73,13 +77,6 @@ class Alegria inherits Emocion{//la instensidad inicial depende de cada caso
     if(self.puede_liberarse()){
       //disminuir intensidad manteniendola positiva
       intensidad = (intensidad - evento.impacto()).abs()
-      /*
-      if (intensidad < evento.impacto()){
-        intensidad =- evento.impacto()
-      } else{
-        intensidad = evento.impacto() - intensidad
-      }
-      */
     }
   }
 
@@ -90,5 +87,35 @@ class Alegria inherits Emocion{//la instensidad inicial depende de cada caso
 
 class Tristeza inherits Emocion{
   //su intensidad puede variar sin limitaciones?
+  
+  var causa
 
+  method puede_liberarse(){
+    return self.intensidad_elevada() && !self.causa_es_melancolia()
+  }
+
+  method liberarse(evento){
+    if(self.puede_liberarse(evento)){
+      causa = evento.descripcion()
+      super(evento)
+    }
+  }
+
+  method causa_es_melancolia(){
+    return causa == "melancolia"
+  }
+
+}
+
+class Desagrado_o_temor inherits Emocion{
+
+  method liberarse(){ //ver de imlementar un super en todas las sub clases de emociones
+    if(self.puede_liberarse()){
+      super(evento)
+    }
+  }
+
+  method puede_liberarse(){
+    return self.intensidad_elevada() && eventos_experimentados > intensidad
+  }
 }
